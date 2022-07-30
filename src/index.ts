@@ -50,7 +50,7 @@ function useVariableFont(
     fontVariationSettings: getVariationSettingString()
   };
 
-  return [style, updateVariationState];
+  return [style, updateVariationState, variationState];
 }
 
 export default useVariableFont;
