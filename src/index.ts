@@ -10,23 +10,24 @@ export type variationSettings = variationObject | "normal";
 function useVariableFont(
   fontFamily: string,
   initialSettings: variationSettings = "normal"
-): [React.CSSProperties, (value: variationSettings | "normal") => void] {
+): [
+  React.CSSProperties,
+  (value: variationSettings | "normal") => void,
+  variationSettings
+] {
   const [variationState, setVariationState] = useState(
     initialSettings === "normal" ? {} : initialSettings
   );
-  useEffect(
-    () => {
-      const font = new FontFaceObserver(fontFamily);
-      font.load().catch(UseVariableFontError => {
-        console.error(
-          `There was an issue loading a variable font...
+  useEffect(() => {
+    const font = new FontFaceObserver(fontFamily);
+    font.load().catch((UseVariableFontError) => {
+      console.error(
+        `There was an issue loading a variable font...
           font-family: ${fontFamily}
           error: ${UseVariableFontError}`
-        );
-      });
-    },
-    [fontFamily]
-  );
+      );
+    });
+  }, [fontFamily]);
 
   const getVariationSettingString = () => {
     const entries = Object.entries(variationState);
@@ -47,7 +48,7 @@ function useVariableFont(
 
   const style = {
     fontFamily,
-    fontVariationSettings: getVariationSettingString()
+    fontVariationSettings: getVariationSettingString(),
   };
 
   return [style, updateVariationState, variationState];
